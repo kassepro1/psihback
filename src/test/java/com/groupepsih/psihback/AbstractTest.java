@@ -16,8 +16,8 @@ import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = PsihBackApplication.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 @WebAppConfiguration
 @ActiveProfiles("test")
 public abstract class AbstractTest {
