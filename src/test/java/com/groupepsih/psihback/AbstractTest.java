@@ -17,15 +17,15 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@WebAppConfiguration
 @ActiveProfiles("test")
+@SpringBootTest(classes = PsihBackApplication.class)
+@WebAppConfiguration
 public abstract class AbstractTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     protected MockMvc mockMvc;
-    @Autowired
-    WebApplicationContext webApplicationContext;
 
+     @Autowired
+     WebApplicationContext webApplicationContext;
     protected void setUp(){
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
