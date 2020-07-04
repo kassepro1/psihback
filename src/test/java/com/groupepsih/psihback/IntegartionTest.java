@@ -39,12 +39,10 @@ public class IntegartionTest {
         //arrange
         AppUser appUser = new AppUser("Momar", "KASSE", "kassepro", "momartallakasse@gmail.com");
         //action
-
         ResponseEntity<AppResponse> response = testRestTemplate.postForEntity(URL, appUser, AppResponse.class);
         //assertion
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody().getMessage()).isEqualTo("Utilisateur ajoute avec succes");
-
     }
 
     @Test
@@ -77,5 +75,32 @@ public class IntegartionTest {
         //assertion
         assertEquals(response.getStatusCode(),HttpStatus.OK);
         verify(appUserRepository,times(1)).deleteById(1L);
+    }
+
+    @Test
+    public void findAppUserByEmail(){
+        AppUser appUser = new AppUser("Momar", "KASSE", "kassepro", "momartallakasse@gmail.com");
+
+        when(appUserRepository.findByEmail(anyString())).thenReturn(appUser);
+        //Action
+        ResponseEntity<Boolean> response = testRestTemplate.getForEntity("/appusers/email/momartallakasse@gmail.com", Boolean.class);
+        //assertion
+        assertEquals(response.getStatusCode(),HttpStatus.OK);
+        assertEquals(true,response.getBody());
+
+        verify(appUserRepository,times(1)).findByEmail(anyString());
+    }
+    @Test
+    public void findAppUserByUsername(){
+        AppUser appUser = new AppUser("Momar", "KASSE", "kassepro", "momartallakasse@gmail.com");
+
+        when(appUserRepository.findByUsername(anyString())).thenReturn(appUser);
+        //Action
+        ResponseEntity<Boolean> response = testRestTemplate.getForEntity("/appusers/username/kassepro", Boolean.class);
+        //assertion
+        assertEquals(response.getStatusCode(),HttpStatus.OK);
+        assertEquals(true,response.getBody());
+
+        verify(appUserRepository,times(1)).findByUsername(anyString());
     }
 }

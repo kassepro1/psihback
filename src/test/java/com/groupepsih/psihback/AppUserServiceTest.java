@@ -43,23 +43,9 @@ public class AppUserServiceTest {
         assertThat(user.getBody().isEtat());
         assertThat(user.getBody().getMessage()).isEqualTo("Utilisateur ajoute avec succes");
     }
-/*
-    @Test
-    public void updateAppUser_souldUpdateAndReturnAppUser(){
-        AppUser appUser = new
-                AppUser(1L,"Momar", "KASSE", "kassepro", "momartallakasse@gmail.com");
-        //action
-        when(appUserRepository.save(appUser)).thenReturn(appUser);
-        AppUser user = appUserService.updateAppUser(1L,appUser);
-        //assertion
-        assertThat(user.getFirstname()).isEqualTo("Momar");
-        assertThat(user.getLastname()).isEqualTo("KASSE");
-        assertThat(user.getUsername()).isEqualTo("kassepro");
-        assertThat(user.getEmail()).isEqualTo("momartallakasse@gmail.com");
-    }*/
 
     @Test
-    public void findAllAppUser_souyldReturnAllAppUser(){
+    public void findAllAppUser_souldReturnAllAppUser(){
         //arrange
         List<AppUser> appUsers = Arrays.asList(
              new  AppUser(1L,"Momar", "KASSE", "kassepro", "momartallakasse@gmail.com"),
@@ -83,6 +69,32 @@ public class AppUserServiceTest {
         //assertion
         assertThat(res.getBody().getMessage()).isEqualTo("Utilisateur supprimé avec succes");
 
+    }
+
+    @Test
+    public void findUserByEmail(){
+        //arrange
+        AppUser appUser = new AppUser("Momar", "KASSE", "kassepro", "momartallakasse@gmail.com");
+
+        //action
+        when(appUserRepository.findByEmail(anyString())).thenReturn(appUser);
+        Boolean rep = appUserService.findAppUserByEmail("momartallakasse@gmail.com");
+
+        //assertion
+        assertEquals(true,rep);
+    }
+
+    @Test
+    public void findAppUserByUsername(){
+        //arrange
+        AppUser appUser = new AppUser("Momar", "KASSE", "kassepro", "momartallakasse@gmail.com");
+
+        //action
+        when(appUserRepository.findByUsername(anyString())).thenReturn(appUser);
+        Boolean rep = appUserService.findAppUserByUsername("kassepro");
+
+        //assertion
+        assertEquals(true,rep);
     }
 
 

@@ -3,6 +3,7 @@ package com.groupepsih.psihback.controller;
 import com.groupepsih.psihback.domaine.AppUser;
 import com.groupepsih.psihback.domaine.dto.AppResponse;
 import com.groupepsih.psihback.service.AppUserService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 public class AppUserController {
 
     private final AppUserService appUserService;
+
     @PostMapping( "/appusers")
     public ResponseEntity<AppResponse> saveAppUser(@RequestBody @Valid AppUser appUser){
         return appUserService.saveAppUser(appUser);

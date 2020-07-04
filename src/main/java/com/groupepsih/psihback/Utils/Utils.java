@@ -1,6 +1,9 @@
 package com.groupepsih.psihback.Utils;
 
 
+import org.apache.commons.lang3.RandomStringUtils;
+
+import java.security.SecureRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,4 +19,15 @@ public class Utils {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+
+    /**
+     * generate random password
+     * @return
+     */
+    public static String generatePassword() {
+        final char[] possibleCharacters = ("0123456789").toCharArray();
+        return RandomStringUtils.random(6, 0, possibleCharacters.length - 1, false, false,
+                possibleCharacters, new SecureRandom());
+    }
+
 }

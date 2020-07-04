@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -40,7 +39,7 @@ public class AppUserControllerTest extends AbstractTest {
     @Test
     public void saveAppUser() throws Exception {
         //arrange
-        AppUser appUser = new AppUser("Momar", "KASSE", "kassepro", "momartallakasse@gmail.com");
+        AppUser appUser = createAppUser();
         //action
         when(appUserRepository.save(any(AppUser.class))).thenReturn(appUser);
         mockMvc.perform(post(URL)
@@ -96,6 +95,37 @@ public class AppUserControllerTest extends AbstractTest {
                 .andExpect(status().isOk());
         //assertion
       verify(appUserRepository,times(1)).deleteById(1L);
+    }
+
+    @Test
+    public void findAppUserByUsername() throws Exception {
+
+        //Action
+        when(appUserRepository.findByUsername(anyString())).thenReturn( createAppUser());
+
+        mockMvc.perform(get("/appusers/username/kassepro")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        //assertion
+        verify(appUserRepository,times(1)).findByUsername(anyString());
+    }
+
+    @Test
+    public void findAppUserByEmail() throws Exception {
+
+        //Action
+        when(appUserRepository.findByEmail(anyString())).thenReturn( createAppUser());
+
+        mockMvc.perform(get("/appusers/email/momartallakasse@gmail.com")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        //assertion
+        verify(appUserRepository,times(1)).findByEmail(anyString());
+    }
+
+    private AppUser createAppUser(){
+        AppUser appUser = new AppUser("Momar", "KASSE", "kassepro", "momartallakasse@gmail.com");
+       return appUser;
     }
 
 }
